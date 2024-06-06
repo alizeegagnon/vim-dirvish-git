@@ -130,9 +130,9 @@ endfunction
 
 function! s:get_status_list(current_dir) abort
   let l:ignored = g:dirvish_git_show_ignored ? '--ignored' : ''
-  let l:status = systemlist(printf('git status --porcelain %s %s', l:ignored, a:current_dir))
+  let l:status = systemlist(printf('git -C %s status --porcelain %s', a:current_dir, l:ignored))
 
-  if len(l:status) ==? 0 || (len(l:status) ==? 1 && l:status[0] =~? '^fatal')
+  if len(l:status) ==? 0 || (len(l:status) < 3 && l:status[0] =~? '^fatal')
     return []
   endif
 
